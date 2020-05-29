@@ -2659,6 +2659,16 @@ function createTextureSet (
 
     unbind: function () {
       this.bindCount -= 1;
+      if(this.unit > -1){
+        
+        gl.activeTexture(GL_TEXTURE0$1 + this.unit);
+        gl.bindTexture(this.target, null);
+        textureUnits[this.unit] = null;
+        this.unit = -1;
+        // this seems fine - since its what tmpBind does...
+        // and restore doesn't change it back...
+        gl.activeTexture(GL_TEXTURE0$1);
+      }
     },
 
     decRef: function () {

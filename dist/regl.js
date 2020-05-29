@@ -3365,6 +3365,21 @@ function createTextureSet (
 
     unbind: function () {
       this.bindCount -= 1;
+      if(this.unit > -1){
+        // actually unbind the texture
+        gl.activeTexture(GL_TEXTURE0$1 + this.unit);
+        gl.bindTexture(this.target, null);
+        // the next line is most important: by (previously) leaving
+        // this texture in the textureUnits list, the bindTmp/restoreTmp() calls
+        // would re-bind this texture. if a command comes next that doesn't
+        // over-write that binding, and the current draw-target has this texture
+        // bound to it, we get an error.
+        textureUnits[this.unit] = null;
+        this.unit = -1;
+        // leave the active-texture as unit 0 - this seems to be
+        // what other parts of regl assume will be the default scenario
+        gl.activeTexture(GL_TEXTURE0$1);
+      }
     },
 
     decRef: function () {
