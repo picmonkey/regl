@@ -200,6 +200,14 @@ module.exports = function wrapREGL (args) {
     // pause request animation frame
     stopRAF()
 
+    // dont bother attempting (later) to 
+    // restore textures / buffers - erase everything now
+    bufferState.clear()
+    textureState.clear()
+    renderbufferState.clear()
+    framebufferState.clear()
+    // note that this may throw some webGL warnings...
+    
     // lose context
     lossCallbacks.forEach(function (cb) {
       cb()
@@ -216,10 +224,7 @@ module.exports = function wrapREGL (args) {
     // refresh state - but rely on the client to regenerate all their textures and buffers...
     extensionState.restore()
     shaderState.restore()
-    bufferState.clear()
-    textureState.clear()
-    renderbufferState.clear()
-    framebufferState.clear()
+    
     if (timer) {
       timer.restore()
     }

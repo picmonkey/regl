@@ -9271,6 +9271,14 @@ function wrapREGL (args) {
     // pause request animation frame
     stopRAF();
 
+    // dont bother attempting (later) to 
+    // restore textures / buffers - erase everything now
+    bufferState.clear()
+    textureState.clear()
+    renderbufferState.clear()
+    framebufferState.clear()
+    // note that this may throw some webGL warnings...
+
     // lose context
     lossCallbacks.forEach(function (cb) {
       cb();
@@ -9287,10 +9295,7 @@ function wrapREGL (args) {
     // refresh state
     extensionState.restore();
     shaderState.restore();
-    bufferState.restore();
-    textureState.restore();
-    renderbufferState.restore();
-    framebufferState.restore();
+   
     if (timer) {
       timer.restore();
     }
