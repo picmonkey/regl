@@ -213,13 +213,13 @@ module.exports = function wrapREGL (args) {
     // clear context lost flag
     contextLost = false
 
-    // refresh state
+    // refresh state - but rely on the client to regenerate all their textures and buffers...
     extensionState.restore()
     shaderState.restore()
-    bufferState.restore()
-    textureState.restore()
-    renderbufferState.restore()
-    framebufferState.restore()
+    bufferState.clear()
+    textureState.clear()
+    renderbufferState.clear()
+    framebufferState.clear()
     if (timer) {
       timer.restore()
     }
